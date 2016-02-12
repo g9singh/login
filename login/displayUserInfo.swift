@@ -68,7 +68,7 @@ class displayUserInfo: UIViewController, UITextFieldDelegate {
             
         })
         userRef!.observeEventType(.Value, withBlock: { snapshot in
-            if(snapshot.hasChild("userInfo")){
+            if(snapshot.hasChild("userInfo") && snapshot.valueForKeyPath("userInfo") != nil ){
                 self.userSummary.text = snapshot.valueForKeyPath("userInfo") as? String
             }
         })

@@ -18,21 +18,25 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     //****************** Buttons ******************//
     //login password
-    @IBOutlet weak var passwordTF: UITextField!
+    let passwordTF = UITextField()
     //login email
-    @IBOutlet weak var emailTF: UITextField!
+    let emailTF = UITextField()
     //sign up password
-    @IBOutlet weak var confirmPasswordTF: UITextField!
+    let confirmPasswordTF = UITextField()
     //loginButton
-    @IBOutlet weak var loginButton: UIButton!
+    let loginButton = UIButton()
     //cancelButton
-    @IBOutlet weak var cancelButton: UIButton!
+    let cancelButton = UIButton()
     //submit button for forgot password
-    @IBOutlet weak var submitBT: UIButton!
+    let submitBT = UIButton()
     //forgot password button
-    @IBOutlet weak var forgotPasswordButton: UIButton!
+    let forgotPasswordBT = UIButton()
     //Sign up button
-    @IBOutlet weak var signUpButton: UIButton!
+    let signUpButton = UIButton()
+    //Login message at the top
+    let loginLable = UILabel()
+    //Dont have an account lable
+    let noAccountLable = UILabel()
     
     
     //****************** alerts to users******************//
@@ -56,7 +60,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     
     //****************** button functions ******************//
-    @IBAction func signUpButton(sender: AnyObject) {
+    func signUpButton(sender: AnyObject) {
         if(confirmPasswordTF.hidden){
             confirmPasswordTF.hidden = false
             confirmPasswordTF.enabled = true
@@ -67,8 +71,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
             cancelButton.hidden = false
             cancelButton.enabled = true
             
-            forgotPasswordButton.hidden = true
-            forgotPasswordButton.enabled = false
+            forgotPasswordBT.hidden = true
+            forgotPasswordBT.enabled = false
             
             passwordTF.hidden = false
             passwordTF.enabled = true
@@ -89,7 +93,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     //************ function for buttons ************//
-    @IBAction func tapLogin(sender: AnyObject) {
+    func tapLogin(sender: AnyObject) {
         if(emailTF.text == nil || passwordTF.text == nil){
             self.presentViewController(self.incorrectPassAlert, animated: true, completion: nil)
         }
@@ -98,7 +102,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         }
     }
     //************ function for buttons ************//
-    @IBAction func cancelButton(sender: UIButton) {
+    func cancelButton(sender: AnyObject) {
         confirmPasswordTF.hidden = true
         confirmPasswordTF.enabled = false
         
@@ -108,8 +112,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
         loginButton.hidden = false
         loginButton.enabled = true
         
-        forgotPasswordButton.hidden = false
-        forgotPasswordButton.enabled = true
+        forgotPasswordBT.hidden = false
+        forgotPasswordBT.enabled = true
         
         passwordTF.hidden = false
         passwordTF.enabled = true
@@ -118,7 +122,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         submitBT.enabled = false
     }
     //************ function for buttons ************//
-    @IBAction func frogotPassButton(sender: AnyObject) {
+    func forgotPassButton(sender: AnyObject) {
         submitBT.hidden = false
         submitBT.enabled = true
         
@@ -131,11 +135,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
         cancelButton.hidden = false
         cancelButton.enabled = true
         
-        forgotPasswordButton.hidden = true
-        forgotPasswordButton.enabled = false
+        forgotPasswordBT.hidden = true
+        forgotPasswordBT.enabled = false
     }
     //************ function for buttons ************//
-    @IBAction func submitButton(sender: AnyObject) {
+    func submitButton(sender: AnyObject) {
         if(emailTF.text != nil){
             forgotPassword()
         }
@@ -265,17 +269,120 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     //make user log in manually
                 }
                 else{
-                    self.moveToLoginVC()
+                    //self.moveToLoginVC()
                 }
             })
         }
     }
     
+    func makeButtons(){
+        var Xalignment = (self.view.frame.size.width - submitBT.frame.size.width)/2
+        //Sumbit button
+        submitBT.setTitle("Submit", forState: .Normal)
+        submitBT.sizeToFit()
+        submitBT.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        submitBT.frame = CGRectMake(Xalignment, 348, submitBT.frame.size.width, submitBT.frame.size.height)
+        submitBT.addTarget(self, action: "submitButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(submitBT)
+        
+        //Login button
+        loginButton.setTitle("Login", forState: .Normal)
+        loginButton.sizeToFit()
+        loginButton.setTitleColor(UIColor.blueColor(), forState: .Normal)
+        Xalignment = (self.view.frame.size.width - loginButton.frame.size.width)/2
+        loginButton.frame = CGRectMake(Xalignment, 267, loginButton.frame.size.width, loginButton.frame.size.height)
+        loginButton.addTarget(self, action: "tapLogin:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(loginButton)
+        
+        //Forget button
+        forgotPasswordBT.setTitle("Forgot Password", forState: .Normal)
+        forgotPasswordBT.sizeToFit()
+        forgotPasswordBT.setTitleColor(UIColor.redColor(), forState: .Normal)
+        Xalignment = (self.view.frame.size.width - forgotPasswordBT.frame.size.width)/2
+        forgotPasswordBT.frame = CGRectMake(Xalignment, 350, forgotPasswordBT.frame.size.width, cancelButton.frame.size.height)
+        forgotPasswordBT.addTarget(self, action: "forgotPassButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(forgotPasswordBT)
+        
+        //Cancle button
+        cancelButton.setTitle("Cancel", forState: .Normal)
+        cancelButton.sizeToFit()
+        cancelButton.setTitleColor(UIColor.grayColor(), forState: .Normal)
+        Xalignment = (self.view.frame.size.width - cancelButton.frame.size.width)/2
+        cancelButton.frame = CGRectMake(Xalignment, 490, cancelButton.frame.size.width, cancelButton.frame.size.height)
+        cancelButton.addTarget(self, action: "cancelButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(cancelButton)
+        
+        //Signup Button
+        signUpButton.setTitle("Sign Up", forState: .Normal)
+        signUpButton.sizeToFit()
+        signUpButton.setTitleColor(UIColor.yellowColor(), forState: .Normal)
+        Xalignment = (self.view.frame.size.width - signUpButton.frame.size.width)/2
+        signUpButton.frame = CGRectMake(Xalignment, 428, signUpButton.frame.size.width, signUpButton.frame.size.height)
+        signUpButton.addTarget(self, action: "signUpButton:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(signUpButton)
+    }
     
+    func makeLables(){
+        //log in lable
+        var Xalignment = (self.view.frame.size.width - 100)/2
+        loginLable.text = "Log in Please"
+        loginLable.textAlignment = NSTextAlignment.Center
+        loginLable.textColor = UIColor.blackColor()
+        loginLable.font = UIFont.systemFontOfSize(17)
+        loginLable.frame = CGRectMake(Xalignment, 20, 200, 20)
+        self.view.addSubview(loginLable)
+        
+        //don't have account lable
+        noAccountLable.text = "Don't have an Account?"
+        noAccountLable.textAlignment = NSTextAlignment.Center
+        noAccountLable.textColor = UIColor.blackColor()
+        noAccountLable.font = UIFont.systemFontOfSize(17)
+        Xalignment = (self.view.frame.size.width - 200)/2
+        noAccountLable.frame = CGRectMake(Xalignment, 400, 200, 20)
+        self.view.addSubview(noAccountLable)
+    }
+    
+    func makeTextFields(){
+        var Xalignment = (self.view.frame.size.width - 200)/2
+        emailTF.placeholder = "Email address"
+        emailTF.textAlignment = NSTextAlignment.Center
+        emailTF.frame = CGRectMake(Xalignment, 173, 200, 30)
+        emailTF.clearsOnBeginEditing = true;
+        emailTF.clearButtonMode = UITextFieldViewMode.UnlessEditing;
+        emailTF.secureTextEntry = false
+        emailTF.backgroundColor = UIColor.whiteColor()
+        emailTF.borderStyle = UITextBorderStyle.RoundedRect
+        self.view.addSubview(emailTF)
+        
+        Xalignment = (self.view.frame.size.width - 200)/2
+        passwordTF.placeholder = "Password"
+        passwordTF.borderStyle = UITextBorderStyle.RoundedRect
+        passwordTF.textAlignment = NSTextAlignment.Center
+        passwordTF.frame = CGRectMake(Xalignment, 230, 200, 30)
+        passwordTF.clearsOnBeginEditing = true;
+        passwordTF.clearButtonMode = UITextFieldViewMode.UnlessEditing;
+        passwordTF.secureTextEntry = true
+        passwordTF.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(passwordTF)
+        
+        Xalignment = (self.view.frame.size.width - 200)/2
+        confirmPasswordTF.placeholder = "Confrim Password"
+        confirmPasswordTF.borderStyle = UITextBorderStyle.RoundedRect
+        confirmPasswordTF.textAlignment = NSTextAlignment.Center
+        confirmPasswordTF.frame = CGRectMake(Xalignment, 305, 200, 30)
+        confirmPasswordTF.clearsOnBeginEditing = true;
+        confirmPasswordTF.clearButtonMode = UITextFieldViewMode.UnlessEditing;
+        confirmPasswordTF.secureTextEntry = true
+        confirmPasswordTF.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(confirmPasswordTF)
+    }
     //****************** set up app before starting ******************//
     override func viewDidLoad() {
         super.viewDidLoad()
         checkCurrentAuth()
+        makeButtons()
+        makeLables()
+        makeTextFields()
         
         submitBT.hidden = true
         submitBT.enabled = false
@@ -316,6 +423,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         somethingWrongAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in
             self.userAlreadyExistsAlert.resignFirstResponder()
         }))
+        
         
         //Looks for single or multiple taps.
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
